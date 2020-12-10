@@ -3,7 +3,7 @@ import time
 import csv
 
 
-class Mail():
+class Mail:
     def __init__(self, host: str, login: str, passwd: str, port: int = 587):
         self.host = host
         self.login = login
@@ -13,7 +13,9 @@ class Mail():
     def getHost(self):
         try:
             self.sender = smtplib.SMTP(self.host, self.port)
+            self.sender.ehlo()
             self.sender.starttls()
+            self.sender.ehlo()
         except smtplib.SMTPConnectError:
             print("Ошибка соединения")
 
