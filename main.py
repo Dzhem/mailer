@@ -12,7 +12,7 @@ host = "smtp.mail.ru"
 mail = lib.Mail(host, login, passwd)
 mail.getHost()
 mail.login_mail()
-lib.mailer(mail, 'base.csv', 'Test mail')
+lib.mailer(mail, 'base.csv')
 mail.exit()
 
 

@@ -1,6 +1,7 @@
 import smtplib
 import time
 import csv
+from email.message import EmailMessage
 
 
 class Mail:
@@ -22,24 +23,28 @@ class Mail:
     def login_mail(self):
         self.sender.login(self.login, self.passwd)
 
-    def send_message(self, email: str, message: str, limit: int = 1):
+    def send_message(self, msg, limit: int = 1):
         for i in range(limit):
-            self.sender.sendmail(self.login, email, message)
+            self.sender.send_message(msg)
             print("Отправленно сообщение")
-
-    def flood(self, email: str, message: str, time_: int = 2):
-        while True:
-            self.sender.sendmail(self.login, email, message)
-            time.sleep(time_)
 
     def exit(self):
         self.sender.close()
 
 
-def mailer(mail_obj, csv_file, message):
+def mailer(mail_obj: Mail, csv_file):
+    msg = EmailMessage()
+    msg['Subject'] = 'Тема тестового сообщения'
+    msg['From'] = mail_obj.login
+    msg.set_content('Это тестовое пистьмо.')
+
     with open(csv_file, 'r') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            message_ = f'{message} {row["name"]} {row["email"]}'
-            mail_obj.send_message(row['email'], message_)
+            try:
+                msg.replace_header('To', row['email'])
+            except KeyError:
+                msg['To'] = row['email']
+
+            mail_obj.send_message(msg)
             time.sleep(61)
