@@ -38,6 +38,12 @@ def mailer(mail_obj: Mail, csv_file):
     msg['From'] = mail_obj.login
     msg.set_content('Это тестовое пистьмо.')
 
+    mail_html = ''
+    with open('index.html') as f:
+        mail_html = f.read()
+
+    msg.add_alternative(mail_html, subtype='html')
+
     with open(csv_file, 'r') as f:
         reader = csv.DictReader(f)
         for row in reader:
