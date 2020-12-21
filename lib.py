@@ -32,7 +32,7 @@ class Mail:
         self.sender.close()
 
 
-def mailer(mail_obj: Mail, csv_file):
+def mailer(mail_obj: Mail, csv_file, delay: int = 61):
     msg = EmailMessage()
     msg['Subject'] = 'Тема тестового сообщения'
     msg['From'] = mail_obj.login
@@ -53,4 +53,4 @@ def mailer(mail_obj: Mail, csv_file):
                 msg['To'] = row['email']
 
             mail_obj.send_message(msg)
-            time.sleep(61)
+            time.sleep(delay)
