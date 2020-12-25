@@ -13,7 +13,7 @@ port = data["port"]
 mail = lib.Mail(host, login, passwd, port)
 mail.getHost()
 mail.login_mail()
-lib.mailer(mail, 'base.csv')
+lib.mailer(mail, 'base.csv', delay=0)
 mail.exit()
 
 
